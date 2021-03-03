@@ -1,5 +1,5 @@
 using IWSN_Backend_Server.Models;
-
+using IWSN_Backend_Server.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -28,16 +28,17 @@ namespace IWSN_Backend_Server
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // register the configuration of the BankUserDatabaseSettings
             services.Configure<BankUserDatabaseSettings>(Configuration.GetSection(nameof(BankUserDatabaseSettings)));
 
-            // Create an singleton instance from the given Interface and add it the the services collection
-            services.AddSingleton<IBankUserDatabaseSettings>(singleInstance => singleInstance.GetRequiredService<IOptions<BankUserDatabaseSettings>>().Value); 
+            // Add the singleton instance from the given Interface and add it the the services collection
+            services.AddSingleton<IBankUserDatabaseSettings>(singleInstance => singleInstance.GetRequiredService<IOptions<BankUserDatabaseSettings>>().Value);
 
-            services.AddControllers();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "IWSN_Backend_Server", Version = "v1" });
-            });
+            // Add the singleton service instance 
+            services.AddSingleton<BankUserService>();
+
+            // add specified controllers 
+            services.AddControllers(); 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,8 +47,6 @@ namespace IWSN_Backend_Server
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "IWSN_Backend_Server v1"));
             }
 
             app.UseRouting();
