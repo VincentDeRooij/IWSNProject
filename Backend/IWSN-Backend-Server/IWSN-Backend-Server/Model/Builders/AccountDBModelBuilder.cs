@@ -8,34 +8,34 @@ namespace IWSN_Backend_Server.Models.Builders
 {
     public class AccountDBModelBuilder
     {
-        private AccountDBModel _model;
+        private AccountDBModel _Model;
 
         public AccountDBModelBuilder() 
         {
-            this._model = new AccountDBModel();            
+            this._Model = new AccountDBModel();            
         }
 
         public AccountDBModelBuilder SetBalance(int balance)
         {
-            this._model.Balance = balance;
+            this._Model.Balance = balance;
             return this;
         }
 
         public AccountDBModelBuilder SetUser(UserDBModel user)
         {
-            this._model.User = user;
+            this._Model.User = user;
             return this;
         }
 
         public AccountDBModel CopyObject(AccountDBModel toCopy)
         {
-            this._model = toCopy;
-            return this._model;
+            this._Model = toCopy;
+            return this._Model;
         }
 
         public AccountDBModel CreateObject()
         {
-            return this._model;
+            return this._Model;
         }
     }
 }

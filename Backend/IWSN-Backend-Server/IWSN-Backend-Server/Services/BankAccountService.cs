@@ -1,4 +1,5 @@
-﻿using IWSN_Backend_Server.Models;
+﻿using IWSN_Backend_Server.Model.Settings;
+using IWSN_Backend_Server.Models;
 using IWSN_Backend_Server.Models.Builders;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -15,24 +16,26 @@ namespace IWSN_Backend_Server.Services
     public class BankAccountService
     {
         // generic database values
-        private readonly IMongoCollection<AccountDBModel> _accountsDB;
+        private readonly IMongoCollection<AccountDBModel> _AccountsDBCollection;
 
-        public BankAccountService(IBankAccountDatabaseSettings settings)
+        public BankAccountService(IDatabaseSettings settings)
         {
-            var mongoDbClient = new MongoClient(settings.BankConnectionString); // connect to the MongoDB via the DB connection string 
-            var databaseData = mongoDbClient.GetDatabase(settings.BankDatabaseName); // get the IMongoDatabase object via the MongoDB client via a collection name
+            // Setting up the connection to the database
+            MongoClient mongoDbClient = new MongoClient(settings.DBConnectionString); // connect to the MongoDB via the DB connection string 
+            IMongoDatabase databaseData = mongoDbClient.GetDatabase(settings.DatabaseName); // get the IMongoDatabase object via the MongoDB client via a collection
 
-            // assign the db values to the readonly value
-            this._accountsDB = databaseData.GetCollection<AccountDBModel>(settings.BankAccountCollectionName); // get the IMongoCollection object from the IMongoDatabase object
+            // Assign the db values to the readonly value
+            this._AccountsDBCollection = databaseData.GetCollection<AccountDBModel>(settings.DBCollectionName); // get the IMongoCollection object from the IMongoDatabase object
 
-            if (this._accountsDB.CountDocuments(new BsonDocument()) == 0)
+            if (this._AccountsDBCollection.CountDocuments(new BsonDocument()) == 0)
             {
                 insertDocuments();
             }
         }
+
         private void insertDocuments()
         {
-            this._accountsDB.InsertOneAsync(new AccountDBModelBuilder()
+            this._AccountsDBCollection.InsertOneAsync(new AccountDBModelBuilder()
                 .SetBalance(1000)
                 .SetUser(new UserDBModelBuilder()
                     .SetReferalId("JennLown")
@@ -45,7 +48,7 @@ namespace IWSN_Backend_Server.Services
                 )
                 .CreateObject());
 
-            this._accountsDB.InsertOneAsync(new AccountDBModelBuilder()
+            this._AccountsDBCollection.InsertOneAsync(new AccountDBModelBuilder()
                 .SetBalance(1000)
                 .SetUser(new UserDBModelBuilder()
                     .SetReferalId("JasonLown")
@@ -60,38 +63,38 @@ namespace IWSN_Backend_Server.Services
         }
 
         // get all database entries
-        public Task<IEnumerable<AccountDBModel>> GetAllAsync()
+        public Task<IEnumerable<AccountDBModel>> GetAllAccountsAsync()
         {
             // returns the user if it was found
-            return Task.FromResult<IEnumerable<AccountDBModel>>(this._accountsDB.Find(user => true).ToList());
+            return Task.FromResult<IEnumerable<AccountDBModel>>(this._AccountsDBCollection.Find(user => true).ToList());
         }
 
         // get a single database entry by id
-        public Task<AccountDBModel> GetByIdAsync(string id)
+        public Task<AccountDBModel> GetAccountByIdAsync(string id)
         {
             // get a user by id
-            return Task.FromResult<AccountDBModel>(this._accountsDB.Find(user => user.Id == id).FirstOrDefault());
+            return Task.FromResult<AccountDBModel>(this._AccountsDBCollection.Find(user => user.Id == id).FirstOrDefault());
         }
 
         // create a user 
-        public Task<AccountDBModel> CreateUserAsync(AccountDBModel account)
+        public Task<AccountDBModel> CreateAccountAsync(AccountDBModel account)
         {
             // insert a new user entry
-            this._accountsDB.InsertOneAsync(account);
+            this._AccountsDBCollection.InsertOneAsync(account);
             return Task.FromResult<AccountDBModel>(account);
         }
 
         // update a existing record/document
-        public Task UpdateAsync(string id, AccountDBModel accountUpdated)
+        public Task UpdateAccountAsync(string id, AccountDBModel accountUpdated)
         {
             // find and replace the user with the new user
-            return this._accountsDB.ReplaceOneAsync(account => account.Id == id, accountUpdated);
+            return this._AccountsDBCollection.ReplaceOneAsync(account => account.Id == id, accountUpdated);
         }
 
         // remove a user-document by a given user referalId
-        public Task RemoveAsync(string id)
+        public Task RemoveAccountAsync(string id)
         {
-            return this._accountsDB.DeleteOneAsync(account => account.Id == id);
+            return this._AccountsDBCollection.DeleteOneAsync(account => account.Id == id);
         }
     }
 }

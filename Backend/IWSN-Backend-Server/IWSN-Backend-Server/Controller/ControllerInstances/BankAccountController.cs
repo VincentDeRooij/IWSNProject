@@ -10,13 +10,14 @@ using System.Threading.Tasks;
 
 namespace IWSN_Backend_Server.Controllers
 {
-    [Route("api/v1/bank/")]
+    // This is the url route of this controller, this must match with the full route name
+    [Route("api/v1/bankaccounts/")] 
     [ApiController]
-    public class BankUserController : ControllerBase
+    public class BankAccountController : ControllerBase
     {
         private readonly BankAccountService _accountService;
 
-        public BankUserController(BankAccountService service)
+        public BankAccountController(BankAccountService service)
         {
             // assign the service to the class variable
             this._accountService = service;
@@ -27,7 +28,7 @@ namespace IWSN_Backend_Server.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AccountDBModel>>> GetAllUsers()
         {
-            var users = await this._accountService.GetAllAsync();
+            var users = await this._accountService.GetAllAccountsAsync();
             return users.ToList();
         }
 
@@ -36,7 +37,7 @@ namespace IWSN_Backend_Server.Controllers
         [HttpGet]
         public async Task<ActionResult<AccountDBModel>> GetById(string id)
         {
-            var user = await this._accountService.GetByIdAsync(id);
+            var user = await this._accountService.GetAccountByIdAsync(id);
             return user;
         }
 
@@ -45,7 +46,7 @@ namespace IWSN_Backend_Server.Controllers
         [HttpPost]
         public async Task<ActionResult<AccountDBModel>> CreateUser([FromBody]AccountDBModel user)
         {
-            var userCreated = await _accountService.CreateUserAsync(user);
+            var userCreated = await _accountService.CreateAccountAsync(user);
             return userCreated;
         }
 
@@ -54,27 +55,28 @@ namespace IWSN_Backend_Server.Controllers
         [HttpPut]
         public async Task<IActionResult> Update(string id, [FromBody]AccountDBModel user)
         {
-            var gatheredUser = await this._accountService.GetByIdAsync(id);
+            var gatheredUser = await this._accountService.GetAccountByIdAsync(id);
 
             if (gatheredUser == null)
             {
                 return NotFound();
             }
-            await this._accountService.UpdateAsync(id, user);
+            await this._accountService.UpdateAccountAsync(id, user);
             return NoContent();
         }
-
+        
+        //
         [Route(AccountDBRouteSettings.MAIN_ROUTE + "/delete/{id}")]
         [HttpDelete]
         public async Task<IActionResult> Delete(string id)
         {
-            var accountTaskObject = await this._accountService.GetByIdAsync(id);
+            var accountTaskObject = await this._accountService.GetAccountByIdAsync(id);
 
             if (accountTaskObject == null)
             {
                 return NotFound();
             }
-            await this._accountService.RemoveAsync(id);
+            await this._accountService.RemoveAccountAsync(id);
 
             return NoContent();
         }

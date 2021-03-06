@@ -15,6 +15,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using IWSN_Backend_Server.Model.Settings;
 
 namespace IWSN_Backend_Server
 {
@@ -34,7 +35,8 @@ namespace IWSN_Backend_Server
             services.Configure<BankAccountDatabaseSettings>(Configuration.GetSection(nameof(BankAccountDatabaseSettings)));
 
             // Add the singleton instance from the given Interface and add it the the services collection
-            services.AddSingleton<IBankAccountDatabaseSettings>(singleInstance => singleInstance.GetRequiredService<IOptions<BankAccountDatabaseSettings>>().Value);
+            services.AddSingleton<IDatabaseSettings>(singleInstance => singleInstance.GetRequiredService<IOptions<BankAccountDatabaseSettings>>().Value);
+            //services.AddSingleton<IDatabaseSettings>
 
             // Add the singleton service instance 
             services.AddSingleton<BankAccountService>();

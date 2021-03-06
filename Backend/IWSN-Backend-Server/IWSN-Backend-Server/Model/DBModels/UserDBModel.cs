@@ -10,8 +10,12 @@ namespace IWSN_Backend_Server.Models.ModelInstances
 {
     public class UserDBModel
     {
+        /// <summary>
+        /// <- Remark -> - When using the System.Text.Json make sure the attributes are reachable with { get; set; }!
+        /// </summary>
         public UserDBModel() { }
 
+        // Referal id of the user 
         [BsonElement("Referalid")]
         public string ReferalId { get; set; }
 
