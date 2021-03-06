@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace IWSN_Backend_Server.Model.Settings
+namespace IWSN_Backend_Server.Model.Settings.Database
 {
-    public interface IDatabaseSettings
+    public interface ISensorInfomationDatabaseSettings
     {
         string DBCollectionName { get; set; }
         string DBConnectionString { get; set; }

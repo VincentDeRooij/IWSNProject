@@ -1,4 +1,5 @@
 ﻿using IWSN_Backend_Server.Model.Settings;
+using IWSN_Backend_Server.Model.Settings.Database;
 using IWSN_Backend_Server.Models;
 using IWSN_Backend_Server.Models.Builders;
 using MongoDB.Bson;
@@ -18,7 +19,7 @@ namespace IWSN_Backend_Server.Services
         // generic database values
         private readonly IMongoCollection<AccountDBModel> _AccountsDBCollection;
 
-        public BankAccountService(IDatabaseSettings settings)
+        public BankAccountService(IBankAccountDatabaseSettings settings)
         {
             // Setting up the connection to the database
             MongoClient mongoDbClient = new MongoClient(settings.DBConnectionString); // connect to the MongoDB via the DB connection string 

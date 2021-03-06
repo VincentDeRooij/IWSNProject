@@ -16,6 +16,8 @@ using System.Threading.Tasks;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using IWSN_Backend_Server.Model.Settings;
+using IWSN_Backend_Server.Models.Settings.Database;
+using IWSN_Backend_Server.Model.Settings.Database;
 
 namespace IWSN_Backend_Server
 {
@@ -31,15 +33,17 @@ namespace IWSN_Backend_Server
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // register the configuration of the BankUserDatabaseSettings
+            // register the configuration of the Settings
             services.Configure<BankAccountDatabaseSettings>(Configuration.GetSection(nameof(BankAccountDatabaseSettings)));
+            services.Configure<SensorInfomationDatabaseSettings>(Configuration.GetSection(nameof(SensorInfomationDatabaseSettings)));
 
-            // Add the singleton instance from the given Interface and add it the the services collection
-            services.AddSingleton<IDatabaseSettings>(singleInstance => singleInstance.GetRequiredService<IOptions<BankAccountDatabaseSettings>>().Value);
-            //services.AddSingleton<IDatabaseSettings>
+            // Add the singleton instances from the given Interface and add it the the services collection
+            services.AddSingleton<IBankAccountDatabaseSettings>(sIAccountDB => sIAccountDB.GetRequiredService<IOptions<BankAccountDatabaseSettings>>().Value);
+            services.AddSingleton<ISensorInfomationDatabaseSettings>(sISensorDB => sISensorDB.GetRequiredService<IOptions<SensorInfomationDatabaseSettings>>().Value);
 
-            // Add the singleton service instance 
+            // Add the singleton service instances
             services.AddSingleton<BankAccountService>();
+            services.AddSingleton<SensorMeasurementService>();
 
             // add specified controllers 
             services.AddControllers(); 

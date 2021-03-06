@@ -1,5 +1,6 @@
 ﻿using IWSN_Backend_Server.Model.Builders;
 using IWSN_Backend_Server.Model.Settings;
+using IWSN_Backend_Server.Model.Settings.Database;
 using IWSN_Backend_Server.Models.Database;
 using IWSN_Backend_Server.Models.Settings.Database;
 using MongoDB.Bson;
@@ -15,7 +16,7 @@ namespace IWSN_Backend_Server.Services
     {
         private readonly IMongoCollection<SensorDBModel> _SensorMeasurementDBCollection;
 
-        public SensorMeasurementService(IDatabaseSettings settings)
+        public SensorMeasurementService(ISensorInfomationDatabaseSettings settings)
         {
             // Setting up the connection to the database
             MongoClient mongoDbClient = new MongoClient(settings.DBConnectionString); // connect to the MongoDB via the DB connection string 
