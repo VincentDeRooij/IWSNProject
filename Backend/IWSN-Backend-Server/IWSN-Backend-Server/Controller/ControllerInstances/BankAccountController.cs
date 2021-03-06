@@ -11,72 +11,72 @@ using System.Threading.Tasks;
 namespace IWSN_Backend_Server.Controllers
 {
     // This is the url route of this controller, this must match with the full route name
-    [Route("api/v1/bankaccounts/")] 
+    [Route( DBRouteSettings.ACCOUNT_MAIN_ROUTE_NAME )] // consisting of api/[VERSION]  [ROUTE-URL OF ACCOUNT]
     [ApiController]
     public class BankAccountController : ControllerBase
     {
-        private readonly BankAccountService _accountService;
+        private readonly BankAccountService _AccountService;
 
         public BankAccountController(BankAccountService service)
         {
             // assign the service to the class variable
-            this._accountService = service;
+            this._AccountService = service;
         }
 
         // get all the available users - async
-        [Route(AccountDBRouteSettings.MAIN_ROUTE + "/all")]
+        [Route( DBRouteSettings.ACCOUNT_SUB_ROUTE_NAME + "/all" )]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AccountDBModel>>> GetAllUsers()
         {
-            var users = await this._accountService.GetAllAccountsAsync();
+            var users = await this._AccountService.GetAllAccountsAsync();
             return users.ToList();
         }
 
         // get a single user by MongoDB assign Id
-        [Route(AccountDBRouteSettings.MAIN_ROUTE + "/{id}")]
+        [Route(DBRouteSettings.ACCOUNT_SUB_ROUTE_NAME + "/{id}")]
         [HttpGet]
         public async Task<ActionResult<AccountDBModel>> GetById(string id)
         {
-            var user = await this._accountService.GetAccountByIdAsync(id);
+            var user = await this._AccountService.GetAccountByIdAsync(id);
             return user;
         }
 
         // Create a single user document in MongoDB - works but throws an error? -> System.InvalidOperationException: No route matches the supplied values.
-        [Route(AccountDBRouteSettings.MAIN_ROUTE + "/create")]
+        [Route(DBRouteSettings.ACCOUNT_SUB_ROUTE_NAME + "/create")]
         [HttpPost]
         public async Task<ActionResult<AccountDBModel>> CreateUser([FromBody]AccountDBModel user)
         {
-            var userCreated = await _accountService.CreateAccountAsync(user);
+            var userCreated = await _AccountService.CreateAccountAsync(user);
             return userCreated;
         }
 
         // 
-        [Route(AccountDBRouteSettings.MAIN_ROUTE + "/update/{id}")]
+        [Route(DBRouteSettings.ACCOUNT_SUB_ROUTE_NAME + "/update/{id}")]
         [HttpPut]
         public async Task<IActionResult> Update(string id, [FromBody]AccountDBModel user)
         {
-            var gatheredUser = await this._accountService.GetAccountByIdAsync(id);
+            var gatheredUser = await this._AccountService.GetAccountByIdAsync(id);
 
             if (gatheredUser == null)
             {
                 return NotFound();
             }
-            await this._accountService.UpdateAccountAsync(id, user);
+            await this._AccountService.UpdateAccountAsync(id, user);
             return NoContent();
         }
         
         //
-        [Route(AccountDBRouteSettings.MAIN_ROUTE + "/delete/{id}")]
+        [Route(DBRouteSettings.ACCOUNT_SUB_ROUTE_NAME + "/delete/{id}")]
         [HttpDelete]
         public async Task<IActionResult> Delete(string id)
         {
-            var accountTaskObject = await this._accountService.GetAccountByIdAsync(id);
+            var accountTaskObject = await this._AccountService.GetAccountByIdAsync(id);
 
             if (accountTaskObject == null)
             {
                 return NotFound();
             }
-            await this._accountService.RemoveAccountAsync(id);
+            await this._AccountService.RemoveAccountAsync(id);
 
             return NoContent();
         }

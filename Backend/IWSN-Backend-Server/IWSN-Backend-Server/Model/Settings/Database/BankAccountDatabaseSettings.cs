@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace IWSN_Backend_Server.Models
 {
-    public class BankAccountDatabaseSettings :  IDatabaseSettings
+    public class BankAccountDatabaseSettings : IDatabaseSettings
     {
         public string DBCollectionName { get; set; }
         public string DBConnectionString { get; set; }

@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using IWSN_Backend_Server.Models.Database;
+using IWSN_Backend_Server.Models.Settings.Class;
+using IWSN_Backend_Server.Services;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,9 +9,74 @@ using System.Threading.Tasks;
 
 namespace IWSN_Backend_Server.Controllers.ControllerInstances
 {
-    [Route("api/v1/sensors")]
+    [Route( DBRouteSettings.SENSOR_MAIN_ROUTE_NAME )]
     [ApiController]
-    public class SensorMeasurementController
+    public class SensorMeasurementController : ControllerBase
     {
+        private readonly SensorMeasurementService _SensorMeasurementService;
+
+        public SensorMeasurementController(SensorMeasurementService service)
+        {
+            // assign the service to the class variable
+            this._SensorMeasurementService = service;
+        }
+
+        // get all the available users - async
+        [Route( DBRouteSettings.SENSOR_SUB_ROUTE_NAME + "/all" )]
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<SensorDBModel>>> GetAllUsers()
+        {
+            var users = await this._SensorMeasurementService.GetAllAsync();
+            return users.ToList();
+        }
+
+        // get a single user by MongoDB assign Id
+        [Route( DBRouteSettings.SENSOR_SUB_ROUTE_NAME + "/{id}" )]
+        [HttpGet]
+        public async Task<ActionResult<SensorDBModel>> GetById(string id)
+        {
+            var user = await this._SensorMeasurementService.GetByIdAsync(id);
+            return user;
+        }
+
+        // Create a single user document in MongoDB - works but throws an error? -> System.InvalidOperationException: No route matches the supplied values.
+        [Route( DBRouteSettings.SENSOR_SUB_ROUTE_NAME + "/create" )]
+        [HttpPost]
+        public async Task<ActionResult<SensorDBModel>> CreateUser([FromBody] SensorDBModel user)
+        {
+            var userCreated = await _SensorMeasurementService.CreateSensorAsync(user);
+            return userCreated;
+        }
+
+        // 
+        [Route( DBRouteSettings.SENSOR_SUB_ROUTE_NAME + "/update/{id}" )]
+        [HttpPut]
+        public async Task<IActionResult> Update(string id, [FromBody] SensorDBModel user)
+        {
+            var gatheredUser = await this._SensorMeasurementService.GetByIdAsync(id);
+
+            if (gatheredUser == null)
+            {
+                return NotFound();
+            }
+            await this._SensorMeasurementService.UpdateSensorAsync(id, user);
+            return NoContent();
+        }
+
+        //
+        [Route( DBRouteSettings.SENSOR_SUB_ROUTE_NAME + "/delete/{id}" )]
+        [HttpDelete]
+        public async Task<IActionResult> Delete(string id)
+        {
+            var accountTaskObject = await this._SensorMeasurementService.GetByIdAsync(id);
+
+            if (accountTaskObject == null)
+            {
+                return NotFound();
+            }
+            await this._SensorMeasurementService.RemoveSensorAsync(id);
+
+            return NoContent();
+        }
     }
 }
