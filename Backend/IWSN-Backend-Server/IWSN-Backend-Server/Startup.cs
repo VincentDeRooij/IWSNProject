@@ -13,6 +13,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace IWSN_Backend_Server
 {
@@ -29,13 +31,13 @@ namespace IWSN_Backend_Server
         public void ConfigureServices(IServiceCollection services)
         {
             // register the configuration of the BankUserDatabaseSettings
-            services.Configure<BankUserDatabaseSettings>(Configuration.GetSection(nameof(BankUserDatabaseSettings)));
+            services.Configure<BankAccountDatabaseSettings>(Configuration.GetSection(nameof(BankAccountDatabaseSettings)));
 
             // Add the singleton instance from the given Interface and add it the the services collection
-            services.AddSingleton<IBankUserDatabaseSettings>(singleInstance => singleInstance.GetRequiredService<IOptions<BankUserDatabaseSettings>>().Value);
+            services.AddSingleton<IBankAccountDatabaseSettings>(singleInstance => singleInstance.GetRequiredService<IOptions<BankAccountDatabaseSettings>>().Value);
 
             // Add the singleton service instance 
-            services.AddSingleton<BankUserService>();
+            services.AddSingleton<BankAccountService>();
 
             // add specified controllers 
             services.AddControllers(); 

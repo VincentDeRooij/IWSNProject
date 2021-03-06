@@ -1,23 +1,22 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
-namespace IWSN_Backend_Server.Models
+namespace IWSN_Backend_Server.Models.ModelInstances
 {
-    public class User
+    public class UserDBModel
     {
-        [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; set; }
+        public UserDBModel() { }
 
         [BsonElement("Referalid")]
         public string ReferalId { get; set; }
 
         [BsonElement("Username")]
-        public string UserName { get; set; }
+        public string UserName { get;  set; }
 
         [BsonElement("Firstname")]
         public string FirstName { get; set; }
