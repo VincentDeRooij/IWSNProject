@@ -5,12 +5,12 @@ using System.Threading.Tasks;
 
 namespace IWSN_Backend_Server.Settings
 {
-    public class MqttSettings : IMqttSettings
+    public class MqttSettings
     {
-        public string BrokerId { get; set; }
-        public int BrokerPort { get; set; }
-        public string ClientId { get; set; }
-        public string Username { get; set; }
-        public string Password { get; set; }
+        public const string BrokerId = "test.mosquitto.org";
+        public const int BrokerPort = 1883;
+        public const string ClientId = "Backend-MQTT-Client";
+        public const string Username = "";
+        public const string Password = "";
     }
 }

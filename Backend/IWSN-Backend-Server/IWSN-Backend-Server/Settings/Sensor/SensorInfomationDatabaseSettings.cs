@@ -12,5 +12,7 @@ namespace IWSN_Backend_Server.Models.Settings.Database
         public string DBCollectionName { get; set; }
         public string DBConnectionString { get; set; }
         public string DatabaseName { get; set; }
+
+      
     }
 }

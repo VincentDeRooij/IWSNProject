@@ -14,7 +14,7 @@ namespace IWSN_Backend_Server.Services
     /// Class which is used as a service to connect to the BankUser MongoDatabase
     /// It uses Async Tasking to wait for results and support the use of Threading
     /// </summary>
-    public class BankAccountService
+    public class BankAccountService : IBankAccountService
     {
         // generic database values
         private readonly IMongoCollection<AccountDBModel> _AccountsDBCollection;

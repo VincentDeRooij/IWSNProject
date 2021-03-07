@@ -15,22 +15,30 @@ namespace IWSN_Backend_Server.Mqtt
         private readonly IMqttClient _MqttClientService;
         private readonly IMqttClientOptions _MqttOptions;
 
-        public MqttClientService(IMqttSettings settings)
+        public MqttClientService()
         {
             var factory = new MqttFactory();
             this._MqttClientService = factory.CreateMqttClient();
 
             this._MqttOptions = new MqttClientOptionsBuilder()
-                .WithClientId(settings.ClientId)
-                .WithTcpServer(settings.BrokerId, settings.BrokerPort)
+                .WithClientId(MqttSettings.ClientId)
+                .WithTcpServer(MqttSettings.BrokerId, MqttSettings.BrokerPort)
                 .Build();
         }
 
-        private async Task ConnectToMqttBroker()
+        public async Task ConnectToMqttBrokerAsync()
         {
             await this._MqttClientService.ConnectAsync(this._MqttOptions, CancellationToken.None);
 
             Console.WriteLine();
         }   
+
+        public void SubscribeToTopicAsync()
+        {
+            this._MqttClientService.UseConnectedHandler(async e =>
+            {
+                await this._MqttClientService.SubscribeAsync("VdR-Test");
+            });
+        }
     }
 }

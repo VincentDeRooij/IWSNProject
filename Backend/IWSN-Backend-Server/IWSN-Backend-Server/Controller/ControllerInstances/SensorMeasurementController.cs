@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace IWSN_Backend_Server.Controllers.ControllerInstances
 {
-    [Route( DBRouteSettings.SENSOR_MAIN_ROUTE_NAME )]
+    [Route( DBRouteSettings.SensorMainRouteName )]
     [ApiController]
     public class SensorMeasurementController : ControllerBase
     {
@@ -22,7 +22,7 @@ namespace IWSN_Backend_Server.Controllers.ControllerInstances
         }
 
         // get all the available users - async
-        [Route( DBRouteSettings.SENSOR_SUB_ROUTE_NAME + "/all" )]
+        [Route( DBRouteSettings.SensorSubRouteName + "/all" )]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<SensorDBModel>>> GetAllUsers()
         {
@@ -31,7 +31,7 @@ namespace IWSN_Backend_Server.Controllers.ControllerInstances
         }
 
         // get a single user by MongoDB assign Id
-        [Route( DBRouteSettings.SENSOR_SUB_ROUTE_NAME + "/{id}" )]
+        [Route( DBRouteSettings.SensorSubRouteName + "/{id}" )]
         [HttpGet]
         public async Task<ActionResult<SensorDBModel>> GetById(string id)
         {
@@ -40,7 +40,7 @@ namespace IWSN_Backend_Server.Controllers.ControllerInstances
         }
 
         // Create a single user document in MongoDB - works but throws an error? -> System.InvalidOperationException: No route matches the supplied values.
-        [Route( DBRouteSettings.SENSOR_SUB_ROUTE_NAME + "/create" )]
+        [Route( DBRouteSettings.SensorSubRouteName + "/create" )]
         [HttpPost]
         public async Task<ActionResult<SensorDBModel>> CreateUser([FromBody] SensorDBModel user)
         {
@@ -49,7 +49,7 @@ namespace IWSN_Backend_Server.Controllers.ControllerInstances
         }
 
         // 
-        [Route( DBRouteSettings.SENSOR_SUB_ROUTE_NAME + "/update/{id}" )]
+        [Route( DBRouteSettings.SensorSubRouteName + "/update/{id}" )]
         [HttpPut]
         public async Task<IActionResult> Update(string id, [FromBody] SensorDBModel user)
         {
@@ -64,7 +64,7 @@ namespace IWSN_Backend_Server.Controllers.ControllerInstances
         }
 
         //
-        [Route( DBRouteSettings.SENSOR_SUB_ROUTE_NAME + "/delete/{id}" )]
+        [Route( DBRouteSettings.SensorSubRouteName + "/delete/{id}" )]
         [HttpDelete]
         public async Task<IActionResult> Delete(string id)
         {

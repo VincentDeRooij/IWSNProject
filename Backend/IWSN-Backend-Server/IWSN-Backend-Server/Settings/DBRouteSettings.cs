@@ -7,12 +7,12 @@ namespace IWSN_Backend_Server.Models.Settings.Class
 {
     public class DBRouteSettings
     {
-        public const string MAIN_ROUTE = "api/v1";
+        public const string MainRoute = "api/v1";
 
-        public const string ACCOUNT_MAIN_ROUTE_NAME = MAIN_ROUTE + "/bank/"; 
-        public const string ACCOUNT_SUB_ROUTE_NAME = "account";
+        public const string AccountMainRouteName = MainRoute + "/bank/"; 
+        public const string AccountSubRouteName = "account";
 
-        public const string SENSOR_MAIN_ROUTE_NAME = MAIN_ROUTE + "/sensor/";
-        public const string SENSOR_SUB_ROUTE_NAME = "data";
+        public const string SensorMainRouteName = MainRoute + "/sensor/";
+        public const string SensorSubRouteName = "data";
     }
 }

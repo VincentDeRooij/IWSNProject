@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace IWSN_Backend_Server.Controllers
 {
     // This is the url route of this controller, this must match with the full route name
-    [Route( DBRouteSettings.ACCOUNT_MAIN_ROUTE_NAME )] // consisting of api/[VERSION]  [ROUTE-URL OF ACCOUNT]
+    [Route( DBRouteSettings.AccountMainRouteName )] // consisting of api/[VERSION]  [ROUTE-URL OF ACCOUNT]
     [ApiController]
     public class BankAccountController : ControllerBase
     {
@@ -24,7 +24,7 @@ namespace IWSN_Backend_Server.Controllers
         }
 
         // get all the available users - async
-        [Route( DBRouteSettings.ACCOUNT_SUB_ROUTE_NAME + "/all" )]
+        [Route( DBRouteSettings.AccountSubRouteName + "/all" )]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AccountDBModel>>> GetAllUsers()
         {
@@ -33,7 +33,7 @@ namespace IWSN_Backend_Server.Controllers
         }
 
         // get a single user by MongoDB assign Id
-        [Route(DBRouteSettings.ACCOUNT_SUB_ROUTE_NAME + "/{id}")]
+        [Route(DBRouteSettings.AccountSubRouteName + "/{id}")]
         [HttpGet]
         public async Task<ActionResult<AccountDBModel>> GetById(string id)
         {
@@ -42,7 +42,7 @@ namespace IWSN_Backend_Server.Controllers
         }
 
         // Create a single user document in MongoDB - works but throws an error? -> System.InvalidOperationException: No route matches the supplied values.
-        [Route(DBRouteSettings.ACCOUNT_SUB_ROUTE_NAME + "/create")]
+        [Route(DBRouteSettings.AccountSubRouteName + "/create")]
         [HttpPost]
         public async Task<ActionResult<AccountDBModel>> CreateUser([FromBody]AccountDBModel user)
         {
@@ -51,7 +51,7 @@ namespace IWSN_Backend_Server.Controllers
         }
 
         // 
-        [Route(DBRouteSettings.ACCOUNT_SUB_ROUTE_NAME + "/update/{id}")]
+        [Route(DBRouteSettings.AccountSubRouteName + "/update/{id}")]
         [HttpPut]
         public async Task<IActionResult> Update(string id, [FromBody]AccountDBModel user)
         {
@@ -66,7 +66,7 @@ namespace IWSN_Backend_Server.Controllers
         }
         
         //
-        [Route(DBRouteSettings.ACCOUNT_SUB_ROUTE_NAME + "/delete/{id}")]
+        [Route(DBRouteSettings.AccountSubRouteName + "/delete/{id}")]
         [HttpDelete]
         public async Task<IActionResult> Delete(string id)
         {
