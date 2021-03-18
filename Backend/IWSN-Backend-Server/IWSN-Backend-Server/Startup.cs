@@ -35,15 +35,12 @@ namespace IWSN_Backend_Server
         public void ConfigureServices(IServiceCollection services)
         {
             // register the configuration of the Settings
-            services.Configure<BankAccountDatabaseSettings>(Configuration.GetSection(nameof(BankAccountDatabaseSettings))); // register the BankAccount Database settings
             services.Configure<SensorInfomationDatabaseSettings>(Configuration.GetSection(nameof(SensorInfomationDatabaseSettings)));  // register the Sensor Database settings
 
             // Add the singleton instances from the given Interface and add it the the services collection
-            services.AddSingleton<IBankAccountDatabaseSettings>(sIAccountDB => sIAccountDB.GetRequiredService<IOptions<BankAccountDatabaseSettings>>().Value);
             services.AddSingleton<ISensorInfomationDatabaseSettings>(sISensorDB => sISensorDB.GetRequiredService<IOptions<SensorInfomationDatabaseSettings>>().Value);
 
             // Add the singleton service instances
-            services.AddSingleton<BankAccountService>();
             services.AddSingleton<SensorMeasurementService>();
 
             // add specified controllers 
