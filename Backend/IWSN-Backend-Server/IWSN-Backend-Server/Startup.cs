@@ -1,24 +1,12 @@
-using IWSN_Backend_Server.Models;
 using IWSN_Backend_Server.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using IWSN_Backend_Server.Model.Settings;
 using IWSN_Backend_Server.Models.Settings.Database;
 using IWSN_Backend_Server.Model.Settings.Database;
-using IWSN_Backend_Server.Settings;
 
 namespace IWSN_Backend_Server
 {
